@@ -10,7 +10,7 @@ public class Solemne_1 {
         for (int a = 0; a < 9; a++) {
             board[a] = String.valueOf(a + 1);
         }
-        printBoard();
+        presentaJugada();
 
         while (true) {
             if (turn.equals("X")) {
@@ -19,7 +19,7 @@ public class Solemne_1 {
                 int numInput = Integer.parseInt(input);
                 if (!board[numInput - 1].equals("X") && !board[numInput - 1].equals("O")) {
                     board[numInput - 1] = turn;
-                    printBoard();
+                    presentaJugada();
                 } else {
                     System.out.println("Esta casilla ya está ocupada. Por favor, elige otra.");
                     continue;
@@ -30,14 +30,14 @@ public class Solemne_1 {
                     numInput = random.nextInt(9);
                 } while (board[numInput].equals("X") || board[numInput].equals("O"));
                 board[numInput] = turn;
-                printBoard();
+                presentaJugada();
             }
-            String winner = checkWinner();
-            if (winner != null) {
-                if (winner.equalsIgnoreCase("draw")) {
+            String ganador = hayUnGanador();
+            if (ganador != null) {
+                if (ganador.equalsIgnoreCase("draw")) {
                     System.out.println("¡Es un empate! Gracias por jugar.");
                 } else {
-                    System.out.println("¡Felicidades! " + winner + " ha ganado! Gracias por jugar.");
+                    System.out.println("¡Felicidades! " + ganador + " ha ganado! Gracias por jugar.");
                 }
                 break;
             }
@@ -45,7 +45,7 @@ public class Solemne_1 {
         }
     }
 
-    static void printBoard() {
+    static void presentaJugada() {
         System.out.println("+---+---+---+");
         System.out.println("| " + board[0] + " | " + board[1] + " | " + board[2] + " |");
         System.out.println("+---+---+---+");
@@ -58,7 +58,7 @@ public class Solemne_1 {
 
     }
 
-    static String checkWinner() {
+    static String hayUnGanador() {
         for (int a = 0; a < 8; a++) {
             String line = null;
             switch (a) {
