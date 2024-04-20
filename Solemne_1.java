@@ -11,38 +11,49 @@ public class Solemne_1 {
             board[a] = String.valueOf(a + 1);
         }
         presentaJugada();
-
+        boolean firstTurn = true;
         while (true) {
             if (turn.equals("X")) {
+                int numInput;
+                if (firstTurn) {
+                    numInput = 5;
+                    firstTurn = false;
+                } else {
+                    do {
+                        numInput = random.nextInt(9) + 1;
+                    } while (board[numInput - 1].equals("X") || board[numInput - 1].equals("Y"));
+                }
+                board[numInput - 1] = turn;
+                presentaJugada();
+            } else {
                 String input = JOptionPane.showInputDialog(
-                        "Turno de " + turn + "; ingresa un número de casilla para colocar " + turn + " en:");
+                        "Es tu turno, por favor ingresa un número de casilla para colocar |Y| en:");
                 int numInput = Integer.parseInt(input);
-                if (!board[numInput - 1].equals("X") && !board[numInput - 1].equals("O")) {
+                if (!board[numInput - 1].equals("X") && !board[numInput - 1].equals("Y")) {
                     board[numInput - 1] = turn;
                     presentaJugada();
                 } else {
                     System.out.println("Esta casilla ya está ocupada. Por favor, elige otra.");
                     continue;
                 }
-            } else {
-                int numInput;
-                do {
-                    numInput = random.nextInt(9);
-                } while (board[numInput].equals("X") || board[numInput].equals("O"));
-                board[numInput] = turn;
-                presentaJugada();
+
             }
             String ganador = hayUnGanador();
             if (ganador != null) {
                 if (ganador.equalsIgnoreCase("draw")) {
                     System.out.println("¡Es un empate! Gracias por jugar.");
+                } else if (ganador.equalsIgnoreCase("X")) 
+                {
+                    System.out.println("Lo siento has perdido el juego! Gracias por jugar.");
                 } else {
-                    System.out.println("¡Felicidades! " + ganador + " ha ganado! Gracias por jugar.");
+                    System.out.println("¡Felicidades! has ganado! Gracias por jugar.");
                 }
                 break;
+
             }
-            turn = turn.equals("X") ? "O" : "X";
+            turn = turn.equals("X") ? "Y" : "X";
         }
+
     }
 
     static void presentaJugada() {
@@ -89,8 +100,8 @@ public class Solemne_1 {
             }
             if (line.equals("XXX")) {
                 return "X";
-            } else if (line.equals("OOO")) {
-                return "O";
+            } else if (line.equals("YYY")) {
+                return "Y";
             }
         }
         for (int a = 0; a < 9; a++) {
