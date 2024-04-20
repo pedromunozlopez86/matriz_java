@@ -20,16 +20,16 @@ public class Solemne_1 {
                     firstTurn = false;
                 } else {
                     do {
-                        numInput = random.nextInt(9) + 1;
-                    } while (board[numInput - 1].equals("X") || board[numInput - 1].equals("Y"));
+                        numInput = (int) (Math.random() * 9) + 1;
+                    } while (board[numInput - 1].equals("X") || board[numInput - 1].equals("O"));
                 }
                 board[numInput - 1] = turn;
                 presentaJugada();
             } else {
                 String input = JOptionPane.showInputDialog(
-                        "Es tu turno, por favor ingresa un número de casilla para colocar |Y| en:");
+                        "Es tu turno, por favor ingresa un número de casilla para colocar O en:");
                 int numInput = Integer.parseInt(input);
-                if (!board[numInput - 1].equals("X") && !board[numInput - 1].equals("Y")) {
+                if (!board[numInput - 1].equals("X") && !board[numInput - 1].equals("O")) {
                     board[numInput - 1] = turn;
                     presentaJugada();
                 } else {
@@ -51,7 +51,7 @@ public class Solemne_1 {
                 break;
 
             }
-            turn = turn.equals("X") ? "Y" : "X";
+            turn = turn.equals("X") ? "O" : "X";
         }
 
     }
@@ -100,8 +100,8 @@ public class Solemne_1 {
             }
             if (line.equals("XXX")) {
                 return "X";
-            } else if (line.equals("YYY")) {
-                return "Y";
+            } else if (line.equals("OOO")) {
+                return "O";
             }
         }
         for (int a = 0; a < 9; a++) {

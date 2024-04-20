@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
-public class TicTacToe {
+public class Arr {
     static String[] board = new String[9];
     static String turn = "X";
 
