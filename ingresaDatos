@@ -50,7 +50,7 @@ public class IngresaDatos {
            vector.nombre[i] = keyB.nextLine();
            System.out.print("Ingrese el apellido: ");
            vector.apellido[i] = keyB.nextLine();
-           // === Se ingresan datos numéricos ==============================
+           // === Se ingresan datos numÃ©ricos ==============================
            System.out.print("Ingrese la edad: ");
            vector.edad[i] = keyB.nextInt();
            System.out.print("Ingrese el telefono: ");
