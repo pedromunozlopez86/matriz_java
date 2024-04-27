@@ -1,0 +1,92 @@
+/*
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+*/
+package ingresadatos;
+//Pedro Munoz
+//Juan Pablo Munoz
+
+import java.util.Scanner;
+
+
+/**
+*
+* @authors pmunoz-jpmunoz
+*/
+public class IngresaDatos {
+
+
+   /**
+    * @param args the command line arguments
+    */
+   private static Scanner keyB;
+   private static String[] nombre;
+   private String[] apellido;
+   private static int[] edad;
+   private static int[] telefono;
+   private static double[] promedio;
+
+
+   // -------------------------------------------------------------
+   private static String dummi;
+
+
+   @SuppressWarnings("static-access")
+   private String ingresos() {
+       // === Se ingresan datos tipo String ============================
+       IngresaDatos vector = new IngresaDatos();
+
+
+       vector.nombre = new String[3];
+       vector.apellido = new String[3];
+       vector.edad = new int[3];
+       vector.telefono = new int[3];
+       vector.promedio = new double[3];
+
+
+       keyB = new Scanner(System.in);
+       for (int i = 0; i < 2; i++) {
+           System.out.print("Ingrese el nombre: ");
+           vector.nombre[i] = keyB.nextLine();
+           System.out.print("Ingrese el apellido: ");
+           vector.apellido[i] = keyB.nextLine();
+           // === Se ingresan datos numéricos ==============================
+           System.out.print("Ingrese la edad: ");
+           vector.edad[i] = keyB.nextInt();
+           System.out.print("Ingrese el telefono: ");
+           vector.telefono[i] = keyB.nextInt();
+           System.out.print("Ingrese el promedio: ");
+           vector.promedio[i] = keyB.nextInt();
+           dummi = keyB.nextLine();
+       }
+
+
+       for (int i = 0; i < 2; i++) {
+           System.out.println("Nombre: " + vector.nombre[i] + "  Apellido: " + vector.apellido[i] + " Edad: "
+                   + vector.edad[i] + " Tel: "
+                   + vector.telefono[i] + " Promedio: " + vector.promedio[i]);
+       }
+       return "FIN";
+   }
+
+
+   private void imprimir() {
+       System.out.println("====================================");
+
+
+   }
+
+
+   public static void main(String[] args) {
+
+
+       IngresaDatos App = new IngresaDatos();
+       // === SALIDA DE DATOS ==========================================
+       System.out.println("====================================");
+       System.out.println(App.ingresos());
+       System.out.println("====================================");
+       App.imprimir();
+   }
+
+
+}
