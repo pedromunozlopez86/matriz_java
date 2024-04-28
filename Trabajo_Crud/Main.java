@@ -1,4 +1,5 @@
 package Trabajo_Crud;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -90,7 +91,7 @@ public class Main {
         }
 
         GestorPersonas gp = new GestorPersonas();
-        String[] opciones = { "Agregar", "Leer", "Actualizar", "Eliminar" };
+        String[] opciones = { "Agregar", "Ver Datos Persona", "Actualizar", "Eliminar", "Ver Todos" };
         String opcion = (String) JOptionPane.showInputDialog(null, "Seleccione una opción", "CRUD Personas",
                 JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
 
@@ -108,7 +109,7 @@ public class Main {
                 p1.setTelefono(telefono);
                 gp.agregarPersona(p1);
                 try {
-                    FileWriter writer = new FileWriter("output.txt", true);
+                    FileWriter writer = new FileWriter("Trabajo_Crud/output.txt", true);
                     Persona[] personas = gp.leerPersonas().toArray(new Persona[0]);
                     for (Persona p : personas) {
                         writer.write("ID: " + p.getId() + ", ");
@@ -123,18 +124,17 @@ public class Main {
                     e.printStackTrace();
                 }
                 break;
-            case "Leer":
+            case "Ver Todos":
                 try {
-                    String content = new String(Files.readAllBytes(Paths.get("output.txt")));
+                    String content = new String(Files.readAllBytes(Paths.get("Trabajo_Crud/output.txt")));
                     JOptionPane.showMessageDialog(null, content);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
             case "Actualizar":
-                // List<Persona> personas = new ArrayList<>();
                 try {
-                    BufferedReader reader = new BufferedReader(new FileReader("output.txt"));
+                    BufferedReader reader = new BufferedReader(new FileReader("Trabajo_Crud/output.txt"));
                     String line;
                     while ((line = reader.readLine()) != null) {
                         if (line.contains("; ")) {
@@ -154,8 +154,6 @@ public class Main {
                         }
                     }
                     reader.close();
-                    System.out.println("gp.leerPersonas() 2: " + gp.leerPersonas());
-                    System.out.println("personas size: " + gp.leerPersonas().size());
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -168,29 +166,26 @@ public class Main {
                         "Seleccione el ID de la persona a actualizar", "Actualizar Persona",
                         JOptionPane.QUESTION_MESSAGE, null, ids, ids[0]);
 
-                System.out.println("idToUpdt: " + idToUpdate);
                 Persona personaToUpdate = gp.personas.stream().filter(p -> p.getId().equals(idToUpdate)).findFirst()
                         .orElse(null);
                 System.out.println("personatoUpdt: " + personaToUpdate.toString());
 
                 if (personaToUpdate != null) {
-                    String nombrePersonaString = JOptionPane.showInputDialog("Ingrese el nuevo nombre");
+                    String nombrePersonaString = JOptionPane.showInputDialog("Ingrese el nuevo nombre",
+                            personaToUpdate.getNombre());
                     personaToUpdate.setNombre(nombrePersonaString);
-                    int edadPersonaInt = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la nueva edad"));
+                    int edadPersonaInt = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la nueva edad",
+                            personaToUpdate.getEdad()));
                     personaToUpdate.setEdad(edadPersonaInt);
-                    String direccionPersona = JOptionPane.showInputDialog("Ingrese la nueva dirección");
+                    String direccionPersona = JOptionPane.showInputDialog("Ingrese la nueva dirección",
+                            personaToUpdate.getDireccion());
                     personaToUpdate.setDireccion(direccionPersona);
-                    String telefonoPersona = JOptionPane.showInputDialog("Ingrese el nuevo teléfono");
+                    String telefonoPersona = JOptionPane.showInputDialog("Ingrese el nuevo teléfono",
+                            personaToUpdate.getTelefono());
                     personaToUpdate.setTelefono(telefonoPersona);
-
-                    System.out.println("persona nueva updt: " + personaToUpdate.toString());
-                    System.out.println("gp.leerPersonas().indexOf(personaToUpdate): "
-                            + gp.leerPersonas().indexOf(personaToUpdate));
                     gp.actualizarPersona(gp.leerPersonas().indexOf(personaToUpdate), personaToUpdate);
-                    System.out.println("gp.leerPersonas() 3: " + gp.leerPersonas());
-                    // reemplazar personaToUpdate en el archivo
                     try {
-                        FileWriter writer = new FileWriter("output.txt", false);
+                        FileWriter writer = new FileWriter("Trabajo_Crud/output.txt", false);
                         for (Persona persona : gp.leerPersonas()) {
                             writer.write("ID: " + persona.getId() + ", ");
                             writer.write("Nombre: " + persona.getNombre() + ", ");
@@ -205,9 +200,10 @@ public class Main {
                     }
                 }
                 break;
+
             case "Eliminar":
                 try {
-                    BufferedReader reader = new BufferedReader(new FileReader("output.txt"));
+                    BufferedReader reader = new BufferedReader(new FileReader("Trabajo_Crud/output.txt"));
                     String line;
                     while ((line = reader.readLine()) != null) {
                         if (line.contains("; ")) {
@@ -228,7 +224,6 @@ public class Main {
                     }
                     reader.close();
                     ids = gp.personas.stream().map(p -> p.getId()).toArray(String[]::new);
-                    System.out.println("ids " + ids);
 
                     String idToDelete = (String) JOptionPane.showInputDialog(null,
                             "Seleccione el ID de la persona a actualizar", "Actualizar Persona",
@@ -236,13 +231,14 @@ public class Main {
                     gp.eliminarPersona(gp.leerPersonas().indexOf(
                             gp.personas.stream().filter(p -> p.getId().equals(idToDelete)).findFirst().orElse(null)));
                     try {
-                        FileWriter writer = new FileWriter("output.txt", false);
+                        System.out.println("gp.leerPersonas()delete " + gp.leerPersonas());
+                        FileWriter writer = new FileWriter("Trabajo_Crud/output.txt", false);
                         for (Persona persona : gp.leerPersonas()) {
                             writer.write("ID: " + persona.getId() + ", ");
                             writer.write("Nombre: " + persona.getNombre() + ", ");
                             writer.write("Edad: " + persona.getEdad() + ", ");
                             writer.write("Dirección: " + persona.getDireccion() + ", ");
-                            writer.write("Teléfono: " + persona.getTelefono() + "; ");
+                            writer.write("Teléfono: " + persona.getTelefono());
                             writer.write("\n");
                         }
                         writer.close();
@@ -254,6 +250,39 @@ public class Main {
                 }
                 break;
 
+            case "Ver Datos Persona":
+                try {
+                    BufferedReader reader = new BufferedReader(new FileReader("Trabajo_Crud/output.txt"));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        if (line.contains("; ")) {
+                            String[] parts = line.split(", ");
+                            Persona persona = new Persona();
+                            String[] idParts = parts[0].split(": ");
+                            persona.setUuid(idParts[1]);
+                            String[] nombreParts = parts[1].split(": ");
+                            persona.setNombre(nombreParts[1]);
+                            String[] edadParts = parts[2].split(": ");
+                            persona.setEdad(Integer.parseInt(edadParts[1]));
+                            String[] direccionParts = parts[3].split(": ");
+                            persona.setDireccion(direccionParts[1]);
+                            String[] telefonoParts = parts[4].split(": ");
+                            persona.setTelefono(telefonoParts[1]);
+                            gp.agregarPersona(persona);
+                        }
+                    }
+                    reader.close();
+                    ids = gp.personas.stream().map(p -> p.getId()).toArray(String[]::new);
+
+                    String idToView = (String) JOptionPane.showInputDialog(null,
+                            "Seleccione el ID de la persona a actualizar", "Actualizar Persona",
+                            JOptionPane.QUESTION_MESSAGE, null, ids, ids[0]);
+                    Persona personaToView = gp.personas.stream().filter(p -> p.getId().equals(idToView)).findFirst()
+                            .orElse(null);
+                    JOptionPane.showMessageDialog(null, personaToView.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
     }
 }
