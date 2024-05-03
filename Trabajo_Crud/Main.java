@@ -6,12 +6,15 @@ import java.nio.file.Paths;
 import java.util.*;
 import javax.swing.JOptionPane;
 
+
+// Integrantes: Juan Pablo Muñoz & Pedro Muñoz
+
 public class Main {
     public static void main(String[] args) {
         class Persona implements Serializable {
+            private int edad;
             private String id;
             private String nombre;
-            private int edad;
             private String direccion;
             private String telefono;
 
